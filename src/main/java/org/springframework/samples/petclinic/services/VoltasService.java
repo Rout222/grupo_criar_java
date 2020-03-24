@@ -18,8 +18,10 @@ import java.util.List;
 @Service
 public class VoltasService {
 
-    public List<Volta> retornarVoltas(MultipartFile file){
+    public List<Volta> retornarVoltas(MultipartFile file) throws Exception {
         List<Volta> voltas = new ArrayList<>();
+        if(file.getSize() == 0)
+            throw new Exception("Arquivo inválido");
         String delimitador = "\t";
         if (file.getContentType().equals("text/csv"))
             delimitador = ";";

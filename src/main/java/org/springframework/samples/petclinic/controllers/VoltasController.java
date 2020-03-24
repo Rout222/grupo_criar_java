@@ -43,12 +43,19 @@ public class VoltasController implements Serializable {
     @PostMapping("/")
     public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file) {
 
-        List<Volta>  voltas     = voltasService.retornarVoltas(file);
+        List<Volta>  voltas     = null;
+        ModelAndView mv;
+        try {
+            voltas = voltasService.retornarVoltas(file);
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            return mv;
+        }
         List<Piloto> pilotos    = pilotosService.retornarPilotos(voltas);
         pilotos                 = processaCorridaService.processarCorrida(pilotos, voltas);
         Volta volta             = processaMelhorVoltaService.processarMelhorVolta(voltas);
 
-        ModelAndView mv = new ModelAndView("arquivoprocessado");
+        mv = new ModelAndView("arquivoprocessado");
         mv.addObject("pilotos", pilotos);
         mv.addObject("melhorVolta", volta);
         return mv;
