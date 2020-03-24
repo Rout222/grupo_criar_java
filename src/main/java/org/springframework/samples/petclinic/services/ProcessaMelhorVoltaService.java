@@ -8,8 +8,10 @@ import java.util.List;
 
 @Service
 public class ProcessaMelhorVoltaService {
-    public Volta processarMelhorVolta(List<Volta> voltas){
-        Collections.sort(voltas);
-        return voltas.get(0);
-    }
+
+	public Volta processarMelhorVolta(List<Volta> voltas) {
+		Collections.sort(voltas);
+		return voltas.get(0);
+	}
+
 }

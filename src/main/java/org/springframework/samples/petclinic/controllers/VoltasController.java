@@ -21,43 +21,45 @@ import java.util.List;
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 public class VoltasController implements Serializable {
 
-    private static final long serialVersionUID = 1l;
+	private static final long serialVersionUID = 1l;
 
-    @Autowired
-    private VoltasService voltasService;
+	@Autowired
+	private VoltasService voltasService;
 
-    @Autowired
-    private ProcessaCorridaService processaCorridaService;
+	@Autowired
+	private ProcessaCorridaService processaCorridaService;
 
-    @Autowired
-    private ProcessaMelhorVoltaService processaMelhorVoltaService;
+	@Autowired
+	private ProcessaMelhorVoltaService processaMelhorVoltaService;
 
-    @Autowired
-    private PilotosService pilotosService;
+	@Autowired
+	private PilotosService pilotosService;
 
-    @GetMapping("/")
-    public String index(){
-        return "welcome";
-    }
+	@GetMapping("/")
+	public String index() {
+		return "welcome";
+	}
 
-    @PostMapping("/")
-    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file) {
+	@PostMapping("/")
+	public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file) {
 
-        List<Volta>  voltas     = null;
-        ModelAndView mv;
-        try {
-            voltas = voltasService.retornarVoltas(file);
-        } catch (Exception e) {
-            mv = new ModelAndView("error");
-            return mv;
-        }
-        List<Piloto> pilotos    = pilotosService.retornarPilotos(voltas);
-        pilotos                 = processaCorridaService.processarCorrida(pilotos, voltas);
-        Volta volta             = processaMelhorVoltaService.processarMelhorVolta(voltas);
+		List<Volta> voltas = null;
+		ModelAndView mv;
+		try {
+			voltas = voltasService.retornarVoltas(file);
+		}
+		catch (Exception e) {
+			mv = new ModelAndView("error");
+			return mv;
+		}
+		List<Piloto> pilotos = pilotosService.retornarPilotos(voltas);
+		pilotos = processaCorridaService.processarCorrida(pilotos, voltas);
+		Volta volta = processaMelhorVoltaService.processarMelhorVolta(voltas);
 
-        mv = new ModelAndView("arquivoprocessado");
-        mv.addObject("pilotos", pilotos);
-        mv.addObject("melhorVolta", volta);
-        return mv;
-    }
+		mv = new ModelAndView("arquivoprocessado");
+		mv.addObject("pilotos", pilotos);
+		mv.addObject("melhorVolta", volta);
+		return mv;
+	}
+
 }
