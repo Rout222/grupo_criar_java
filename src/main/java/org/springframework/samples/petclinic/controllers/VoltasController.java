@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,13 +41,16 @@ public class VoltasController implements Serializable {
     }
 
     @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file) {
+
         List<Volta>  voltas     = voltasService.retornarVoltas(file);
         List<Piloto> pilotos    = pilotosService.retornarPilotos(voltas);
         pilotos                 = processaCorridaService.processarCorrida(pilotos, voltas);
         Volta volta             = processaMelhorVoltaService.processarMelhorVolta(voltas);
 
-        System.out.println(pilotos);
-        return "arquivoprocessado";
+        ModelAndView mv = new ModelAndView("arquivoprocessado");
+        mv.addObject("pilotos", pilotos);
+        mv.addObject("melhorVolta", volta);
+        return mv;
     }
 }

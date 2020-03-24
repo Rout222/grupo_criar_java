@@ -1,11 +1,86 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="fragments/main_layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <body>
+    <title>Processar arquivo</title>
 
-    <h2>Welcome o fred2</h2>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  </body>
+    <!-- Custom styles for this template -->
+    <link href="custom.css" rel="stylesheet">
+</head>
 
+<body>
+<script class="jsbin"
+        src="https://ajax.googleapis.com/ajax/repositorios\voltasRepository/jquery/1/jquery.min.js"></script>
+<div class="container-fluid">
+    <div class="card m-5">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 col-3">
+                    <a href="/" class="btn btn-default btn-md active" role="button"
+                       aria-pressed="true">Voltar</a>
+                </div>
+                <div class="col-md-9">
+                    <div class="alert alert-primary" role="alert" th:text="|A melhor volta é do piloto ${melhorVolta.piloto.nome} com ${melhorVolta.tempoVolta}|">
+
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Posição</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Voltas</th>
+                        <th scope="col">Tempo Total</th>
+                        <th scope="col">Melhor Volta</th>
+                        <th scope="col">Velocidade Média</th>
+                        <th scope="col">Chegou após o vencedor em segundos</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="piloto, i: ${pilotos}">
+                        <td th:text="${i.count}"/>
+                        <td th:text="${piloto.id}"/>
+                        <td th:text="${piloto.nome}"/>
+                        <td th:text="${piloto.numVoltas}"/>
+                        <td th:text="${piloto.tempo}"/>
+                        <td th:text="${piloto.recorde}"/>
+                        <td th:text="${piloto.somaMedia}/${piloto.numVoltas}" />
+                        <td th:text="(${piloto.tempo.getTime()}-${pilotos[0].tempo.getTime()})/1000"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/repositorios\voltasRepository/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="custom.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
 </html>
